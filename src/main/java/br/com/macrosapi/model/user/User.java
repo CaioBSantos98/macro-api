@@ -41,4 +41,8 @@ public class User {
         this.createdAt = LocalDateTime.now();
         this.active = true;
     }
+
+    public void delete() {
+        this.active = false;
+    }
 }

@@ -34,4 +34,11 @@ public class UserController {
         UserDetailsDTO userDto = service.detail(id);
         return ResponseEntity.ok(userDto);
     }
+
+    @DeleteMapping
+    @RequestMapping("/delete/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

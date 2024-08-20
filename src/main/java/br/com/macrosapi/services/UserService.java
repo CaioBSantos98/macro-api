@@ -28,6 +28,14 @@ public class UserService {
 
     public UserDetailsDTO detail(UUID id) {
         User user = userRepository.getReferenceById(id);
-        return new UserDetailsDTO(user);
+        if (user.getActive()) {
+            return new UserDetailsDTO(user);
+        }
+        throw new RuntimeException("This user was deleted");
+    }
+
+    public void delete(UUID id) {
+        User user = userRepository.getReferenceById(id);
+        user.delete();
     }
 }
