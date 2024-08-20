@@ -4,9 +4,11 @@ import br.com.macrosapi.dto.RegisterUserDTO;
 import br.com.macrosapi.dto.UserDetailsDTO;
 import br.com.macrosapi.model.user.User;
 import br.com.macrosapi.services.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -21,6 +23,7 @@ public class UserController {
     private UserService service;
 
     @PostMapping
+    @Transactional
     public ResponseEntity<UserDetailsDTO> create(@RequestBody @Valid RegisterUserDTO dto, UriComponentsBuilder uriBuilder) {
         User user = service.create(dto);
         URI uri = uriBuilder.path("/api/user/{id}").buildAndExpand(user.getId()).toUri();
@@ -31,14 +34,23 @@ public class UserController {
     @GetMapping
     @RequestMapping("/{id}")
     public ResponseEntity<UserDetailsDTO> detail(@PathVariable UUID id) {
-        UserDetailsDTO userDto = service.detail(id);
-        return ResponseEntity.ok(userDto);
+        try {
+            UserDetailsDTO userDto = service.detail(id);
+            return ResponseEntity.ok(userDto);
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping
+    @Transactional
     @RequestMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
+        try {
+            service.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
