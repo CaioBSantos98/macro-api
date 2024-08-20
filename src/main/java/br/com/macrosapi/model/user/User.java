@@ -31,10 +31,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Food> foods;
 
-    public User(RegisterUserDTO dto) {
+    public User(RegisterUserDTO dto, String encodedPassword) {
         this.name = dto.name();
         this.email = dto.email();
-        this.password = dto.password();
+        this.password = encodedPassword;
         this.birthDate = dto.birthDate();
         this.createdAt = LocalDateTime.now();
         this.active = true;
