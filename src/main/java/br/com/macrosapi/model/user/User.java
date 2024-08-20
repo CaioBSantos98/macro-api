@@ -2,6 +2,7 @@ package br.com.macrosapi.model.user;
 
 import br.com.macrosapi.dto.RegisterUserDTO;
 import br.com.macrosapi.model.food.Food;
+import br.com.macrosapi.model.meal.Meal;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -32,6 +33,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Food> foods;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Meal> meals;
 
     public User(RegisterUserDTO dto, String encodedPassword) {
         this.name = dto.name();
