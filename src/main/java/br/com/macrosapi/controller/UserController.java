@@ -5,6 +5,7 @@ import br.com.macrosapi.dto.UserDetailsDTO;
 import br.com.macrosapi.model.user.User;
 import br.com.macrosapi.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,12 +44,14 @@ public class UserController {
 
     @DeleteMapping("/delete/{id}")
     @Transactional
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id, HttpServletRequest request) {
         try {
-            service.delete(id);
+            service.delete(id, request);
             return ResponseEntity.noContent().build();
         } catch (EntityNotFoundException ex) {
             return ResponseEntity.notFound().build();
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().build();
         }
     }
 }

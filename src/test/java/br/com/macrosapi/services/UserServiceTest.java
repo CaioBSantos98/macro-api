@@ -3,6 +3,7 @@ package br.com.macrosapi.services;
 import br.com.macrosapi.dto.RegisterUserDTO;
 import br.com.macrosapi.model.user.User;
 import br.com.macrosapi.repositories.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,12 @@ class UserServiceTest {
 
     @Mock
     private UUID uuid;
+
+    @Mock
+    private HttpServletRequest request;
+
+    @Mock
+    private TokenService tokenService;
 
     @Captor
     private ArgumentCaptor<User> userCaptor;
@@ -88,12 +95,15 @@ class UserServiceTest {
 
     @Test
     @DisplayName("Should delete user when requesting")
-    void testCase05() {
+    void testCase05() throws IllegalAccessException {
         // ARRANGE
         BDDMockito.given(repository.getReferenceById(uuid)).willReturn(user);
+        BDDMockito.given(tokenService.recoverTokenFromCookies(request)).willReturn("token");
+        BDDMockito.given(tokenService.getSubject("token")).willReturn("teste@email.com");
+        BDDMockito.given(user.getEmail()).willReturn("teste@email.com");
 
         // ACT
-        service.delete(uuid);
+        service.delete(uuid, request);
 
         // ASSERT
         BDDMockito.then(user).should().delete();
