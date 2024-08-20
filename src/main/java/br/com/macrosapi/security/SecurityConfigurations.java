@@ -28,6 +28,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers("/login").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/api/user").permitAll();
+                    req.requestMatchers(HttpMethod.GET, "api/food/{id}").permitAll();
                     req.anyRequest().authenticated();
                 })
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)

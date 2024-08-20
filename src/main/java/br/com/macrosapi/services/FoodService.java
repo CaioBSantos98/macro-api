@@ -1,5 +1,6 @@
 package br.com.macrosapi.services;
 
+import br.com.macrosapi.dto.FoodDetailsDTO;
 import br.com.macrosapi.dto.RegisterFoodDTO;
 import br.com.macrosapi.model.food.Food;
 import br.com.macrosapi.repositories.FoodRepository;
@@ -7,6 +8,8 @@ import br.com.macrosapi.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class FoodService {
@@ -28,5 +31,11 @@ public class FoodService {
         Food food = new Food(dto, user);
         foodRepository.save(food);
         return food;
+    }
+
+    public FoodDetailsDTO detail(UUID id) {
+        Food food = foodRepository.getReferenceById(id);
+
+        return new FoodDetailsDTO(food);
     }
 }
