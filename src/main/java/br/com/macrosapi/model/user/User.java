@@ -5,6 +5,7 @@ import br.com.macrosapi.model.food.Food;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @EqualsAndHashCode(of = "id")
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
