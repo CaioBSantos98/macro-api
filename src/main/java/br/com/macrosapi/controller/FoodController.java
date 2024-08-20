@@ -41,4 +41,17 @@ public class FoodController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/delete/{id}")
+    @Transactional
+    public ResponseEntity<Void> delete(@PathVariable UUID id, HttpServletRequest request) {
+        try {
+            service.delete(id, request);
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -3,6 +3,7 @@ package br.com.macrosapi.services;
 import br.com.macrosapi.dto.FoodDetailsDTO;
 import br.com.macrosapi.dto.RegisterFoodDTO;
 import br.com.macrosapi.model.food.Food;
+import br.com.macrosapi.model.user.User;
 import br.com.macrosapi.repositories.FoodRepository;
 import br.com.macrosapi.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,5 +38,17 @@ public class FoodService {
         Food food = foodRepository.getReferenceById(id);
 
         return new FoodDetailsDTO(food);
+    }
+
+    public void delete(UUID id, HttpServletRequest request) throws IllegalAccessException {
+        Food food = foodRepository.getReferenceById(id);
+        String token = tokenService.recoverTokenFromCookies(request);
+        String email = tokenService.getSubject(token);
+
+        if (!email.equals(food.getUser().getEmail())) {
+            throw new IllegalAccessException("You can only exclude your own foods");
+        }
+
+        foodRepository.deleteById(id);
     }
 }
