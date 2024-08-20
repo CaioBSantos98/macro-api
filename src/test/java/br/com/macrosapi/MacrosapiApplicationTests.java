@@ -1,4 +1,4 @@
-package br.com.macrosapi.macrosapi;
+package br.com.macrosapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

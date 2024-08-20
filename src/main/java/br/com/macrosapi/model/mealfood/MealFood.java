@@ -1,7 +1,7 @@
-package br.com.macrosapi.macrosapi.model.mealfood;
+package br.com.macrosapi.model.mealfood;
 
-import br.com.macrosapi.macrosapi.model.food.Food;
-import br.com.macrosapi.macrosapi.model.meal.Meal;
+import br.com.macrosapi.model.food.Food;
+import br.com.macrosapi.model.meal.Meal;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
