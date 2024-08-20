@@ -16,7 +16,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private User create(RegisterUserDTO dto) {
+    public User create(RegisterUserDTO dto) {
         var encodedPassword = passwordEncoder.encode(dto.password());
         User user = new User(dto, encodedPassword);
         userRepository.save(user);
