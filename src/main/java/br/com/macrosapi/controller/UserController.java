@@ -31,8 +31,7 @@ public class UserController {
         return ResponseEntity.created(uri).body(userDto);
     }
 
-    @GetMapping
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<UserDetailsDTO> detail(@PathVariable UUID id) {
         try {
             UserDetailsDTO userDto = service.detail(id);
@@ -42,9 +41,8 @@ public class UserController {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete/{id}")
     @Transactional
-    @RequestMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         try {
             service.delete(id);
