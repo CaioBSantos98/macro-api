@@ -1,5 +1,6 @@
 package br.com.macrosapi.model.user;
 
+import br.com.macrosapi.dto.RegisterUserDTO;
 import br.com.macrosapi.model.food.Food;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,4 +30,13 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Food> foods;
+
+    public User(RegisterUserDTO dto) {
+        this.name = dto.name();
+        this.email = dto.email();
+        this.password = dto.password();
+        this.birthDate = dto.birthDate();
+        this.createdAt = LocalDateTime.now();
+        this.active = true;
+    }
 }
