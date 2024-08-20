@@ -37,7 +37,7 @@ public class User {
         this.name = dto.name();
         this.email = dto.email();
         this.password = encodedPassword;
-        this.birthDate = dto.birthDate();
+        this.birthDate = dto.getBirthDateAsLocalDate();
         this.createdAt = LocalDateTime.now();
         this.active = true;
     }
