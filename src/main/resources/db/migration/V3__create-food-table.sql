@@ -1,0 +1,14 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+CREATE TABLE foods (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(255) NOT NULL,
+    brand VARCHAR(255),
+    serving DOUBLE PRECISION NOT NULL,
+    calories DOUBLE PRECISION NOT NULL,
+    carbohydrate DOUBLE PRECISION NOT NULL,
+    protein DOUBLE PRECISION NOT NULL,
+    fat DOUBLE PRECISION NOT NULL,
+    user_id UUID NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
