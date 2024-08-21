@@ -8,6 +8,9 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +43,13 @@ public class FoodController {
         } catch (EntityNotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/search/{foodname}")
+    public ResponseEntity<Page<FoodDetailsDTO>> search(@PathVariable String foodname, @PageableDefault(size = 10, sort = "name") Pageable pageable) {
+        var search = service.searchFood(foodname, pageable);
+
+        return ResponseEntity.ok(search);
     }
 
     @DeleteMapping("/delete/{id}")

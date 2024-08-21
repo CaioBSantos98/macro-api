@@ -3,11 +3,12 @@ package br.com.macrosapi.services;
 import br.com.macrosapi.dto.FoodDetailsDTO;
 import br.com.macrosapi.dto.RegisterFoodDTO;
 import br.com.macrosapi.model.food.Food;
-import br.com.macrosapi.model.user.User;
 import br.com.macrosapi.repositories.FoodRepository;
 import br.com.macrosapi.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -50,5 +51,9 @@ public class FoodService {
         }
 
         foodRepository.deleteById(id);
+    }
+
+    public Page<FoodDetailsDTO> searchFood(String foodname, Pageable pageable) {
+        return foodRepository.findAllByFoodName("%"+foodname+"%", pageable).map(FoodDetailsDTO::new);
     }
 }
