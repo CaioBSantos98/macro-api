@@ -75,10 +75,10 @@ public class MealService {
         Double fat = 0.0;
 
         for (MealFood mf : meal.getMealFoods()) {
-            calories += mf.getFood().getCalories();
-            carbohydrates += mf.getFood().getCarbohydrate();
-            protein += mf.getFood().getProtein();
-            fat += mf.getFood().getFat();
+            calories += mf.getFood().getCalories() * mf.getFoodQuantity();
+            carbohydrates += mf.getFood().getCarbohydrate() * mf.getFoodQuantity();
+            protein += mf.getFood().getProtein() * mf.getFoodQuantity();
+            fat += mf.getFood().getFat() * mf.getFoodQuantity();
         }
 
         return new MealSummaryDTO(meal.getName(), meal.getDate(), calories, carbohydrates, protein, fat);
