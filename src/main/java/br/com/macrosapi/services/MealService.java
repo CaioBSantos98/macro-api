@@ -4,6 +4,7 @@ import br.com.macrosapi.dto.meal.CreateMealDTO;
 import br.com.macrosapi.dto.food.FoodDetailsDTO;
 import br.com.macrosapi.dto.food.FoodItemListDTO;
 import br.com.macrosapi.dto.meal.MealDetailsDTO;
+import br.com.macrosapi.dto.meal.MealFoodDTO;
 import br.com.macrosapi.model.food.Food;
 import br.com.macrosapi.model.meal.Meal;
 import br.com.macrosapi.model.mealfood.MealFood;
@@ -39,7 +40,7 @@ public class MealService {
         Meal meal = new Meal(dto.name(), user);
         mealRepository.save(meal);
 
-        List<FoodDetailsDTO> foodDTOList = new ArrayList<>();
+        List<MealFoodDTO> foodDTOList = new ArrayList<>();
 
         for (FoodItemListDTO foodItem : dto.foodList()) {
             if (!foodRepository.existsById(foodItem.id())) {
@@ -48,7 +49,7 @@ public class MealService {
             Food food = foodRepository.getReferenceById(foodItem.id());
             MealFood mealFood = new MealFood(foodItem.quantity(), meal, food);
             mealFoodRepository.save(mealFood);
-            foodDTOList.add(new FoodDetailsDTO(food));
+            foodDTOList.add(new MealFoodDTO(mealFood.getFoodQuantity(), new FoodDetailsDTO(food)));
         }
 
         return new MealDetailsDTO(meal.getId(), meal.getName(), meal.getDate(), foodDTOList);
@@ -56,8 +57,8 @@ public class MealService {
 
     public MealDetailsDTO detail(UUID id) {
         Meal meal = mealRepository.getReferenceById(id);
-        List<FoodDetailsDTO> foodList = new ArrayList<>();
-        meal.getMealFoods().forEach(mf -> foodList.add(new FoodDetailsDTO(mf.getFood())));
+        List<MealFoodDTO> foodList = new ArrayList<>();
+        meal.getMealFoods().forEach(mf -> foodList.add(new MealFoodDTO(mf.getFoodQuantity(), new FoodDetailsDTO(mf.getFood()))));
         return new MealDetailsDTO(meal.getId(), meal.getName(), meal.getDate(), foodList);
     }
 }
