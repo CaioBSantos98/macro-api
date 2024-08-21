@@ -49,4 +49,11 @@ public class UserService {
 
         user.delete();
     }
+
+    public User getUserByHttpRequest(HttpServletRequest request) {
+        var tokenJWT = tokenService.recoverTokenFromCookies(request);
+        var subject = tokenService.getSubject(tokenJWT);
+
+        return userRepository.findUserByEmailAndActiveTrue(subject);
+    }
 }

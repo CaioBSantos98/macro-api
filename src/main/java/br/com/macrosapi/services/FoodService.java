@@ -3,6 +3,7 @@ package br.com.macrosapi.services;
 import br.com.macrosapi.dto.FoodDetailsDTO;
 import br.com.macrosapi.dto.RegisterFoodDTO;
 import br.com.macrosapi.model.food.Food;
+import br.com.macrosapi.model.user.User;
 import br.com.macrosapi.repositories.FoodRepository;
 import br.com.macrosapi.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,10 +26,11 @@ public class FoodService {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private UserService userService;
+
     public Food register(RegisterFoodDTO dto, HttpServletRequest request) {
-        var tokenJWT = tokenService.recoverTokenFromCookies(request);
-        var subject = tokenService.getSubject(tokenJWT);
-        var user = userRepository.findUserByEmailAndActiveTrue(subject);
+        User user = userService.getUserByHttpRequest(request);
 
         Food food = new Food(dto, user);
         foodRepository.save(food);
