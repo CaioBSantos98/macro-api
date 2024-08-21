@@ -12,10 +12,9 @@ public record FoodDetailsDTO(
         Double calories,
         Double carbohydrate,
         Double protein,
-        Double fat,
-        UUID userId
+        Double fat
 ) {
     public FoodDetailsDTO(Food food) {
-        this(food.getId(), food.getName(), food.getBrand(), food.getServing(), food.getCalories(), food.getCarbohydrate(), food.getProtein(), food.getFat(), food.getUser().getId());
+        this(food.getId(), food.getName(), food.getBrand(), food.getServing(), food.getCalories(), food.getCarbohydrate(), food.getProtein(), food.getFat());
     }
 }
