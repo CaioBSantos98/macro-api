@@ -2,6 +2,7 @@ package br.com.macrosapi.controller;
 
 import br.com.macrosapi.dto.meal.CreateMealDTO;
 import br.com.macrosapi.dto.meal.MealDetailsDTO;
+import br.com.macrosapi.dto.meal.MealSummaryDTO;
 import br.com.macrosapi.services.MealService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,11 +31,21 @@ public class MealController {
         return ResponseEntity.created(uri).body(mealDetailsDTO);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/detailed/{id}")
     public ResponseEntity<MealDetailsDTO> detail(@PathVariable UUID id) {
         try {
             MealDetailsDTO mealDto = service.detail(id);
             return ResponseEntity.ok(mealDto);
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/simplified/{id}")
+    public ResponseEntity<MealSummaryDTO> simplifiedDetail(@PathVariable UUID id) {
+        try {
+            MealSummaryDTO dto = service.summaryDetails(id);
+            return ResponseEntity.ok(dto);
         } catch (EntityNotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
