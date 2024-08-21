@@ -29,6 +29,7 @@ public class SecurityConfigurations {
                     req.requestMatchers("/login").permitAll();
                     req.requestMatchers(HttpMethod.POST, "/api/user").permitAll();
                     req.requestMatchers(HttpMethod.GET, "api/food/{id}").permitAll();
+                    req.requestMatchers(HttpMethod.GET, "api/food/search/{foodname}").permitAll();
                     req.anyRequest().authenticated();
                 })
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
