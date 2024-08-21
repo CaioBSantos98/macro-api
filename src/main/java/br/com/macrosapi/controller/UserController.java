@@ -1,7 +1,7 @@
 package br.com.macrosapi.controller;
 
-import br.com.macrosapi.dto.RegisterUserDTO;
-import br.com.macrosapi.dto.UserDetailsDTO;
+import br.com.macrosapi.dto.user.RegisterUserDTO;
+import br.com.macrosapi.dto.user.UserDetailsDTO;
 import br.com.macrosapi.model.user.User;
 import br.com.macrosapi.services.UserService;
 import jakarta.persistence.EntityNotFoundException;

@@ -1,6 +1,6 @@
 package br.com.macrosapi.controller;
 
-import br.com.macrosapi.dto.LoginDTO;
+import br.com.macrosapi.dto.user.LoginDTO;
 import br.com.macrosapi.model.user.User;
 import br.com.macrosapi.services.CookieService;
 import br.com.macrosapi.services.TokenService;

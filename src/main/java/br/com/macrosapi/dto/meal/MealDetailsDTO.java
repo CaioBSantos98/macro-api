@@ -1,4 +1,6 @@
-package br.com.macrosapi.dto;
+package br.com.macrosapi.dto.meal;
+
+import br.com.macrosapi.dto.food.FoodDetailsDTO;
 
 import java.time.LocalDate;
 import java.util.List;

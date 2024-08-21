@@ -1,4 +1,4 @@
-package br.com.macrosapi.dto;
+package br.com.macrosapi.dto.food;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

@@ -1,7 +1,7 @@
 package br.com.macrosapi.controller;
 
-import br.com.macrosapi.dto.CreateMealDTO;
-import br.com.macrosapi.dto.MealDetailsDTO;
+import br.com.macrosapi.dto.meal.CreateMealDTO;
+import br.com.macrosapi.dto.meal.MealDetailsDTO;
 import br.com.macrosapi.services.MealService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;

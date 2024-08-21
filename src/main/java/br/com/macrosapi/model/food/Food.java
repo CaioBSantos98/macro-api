@@ -1,6 +1,6 @@
 package br.com.macrosapi.model.food;
 
-import br.com.macrosapi.dto.RegisterFoodDTO;
+import br.com.macrosapi.dto.food.RegisterFoodDTO;
 import br.com.macrosapi.model.mealfood.MealFood;
 import br.com.macrosapi.model.user.User;
 import jakarta.persistence.*;

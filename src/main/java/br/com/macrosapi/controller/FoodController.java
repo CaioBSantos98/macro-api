@@ -1,7 +1,7 @@
 package br.com.macrosapi.controller;
 
-import br.com.macrosapi.dto.FoodDetailsDTO;
-import br.com.macrosapi.dto.RegisterFoodDTO;
+import br.com.macrosapi.dto.food.FoodDetailsDTO;
+import br.com.macrosapi.dto.food.RegisterFoodDTO;
 import br.com.macrosapi.model.food.Food;
 import br.com.macrosapi.services.FoodService;
 import jakarta.persistence.EntityNotFoundException;

@@ -1,6 +1,6 @@
 package br.com.macrosapi.services;
 
-import br.com.macrosapi.dto.RegisterUserDTO;
+import br.com.macrosapi.dto.user.RegisterUserDTO;
 import br.com.macrosapi.model.user.User;
 import br.com.macrosapi.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;

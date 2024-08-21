@@ -1,4 +1,4 @@
-package br.com.macrosapi.dto;
+package br.com.macrosapi.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
 

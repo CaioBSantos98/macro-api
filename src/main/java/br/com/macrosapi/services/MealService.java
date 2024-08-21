@@ -1,9 +1,9 @@
 package br.com.macrosapi.services;
 
-import br.com.macrosapi.dto.CreateMealDTO;
-import br.com.macrosapi.dto.FoodDetailsDTO;
-import br.com.macrosapi.dto.FoodItemListDTO;
-import br.com.macrosapi.dto.MealDetailsDTO;
+import br.com.macrosapi.dto.meal.CreateMealDTO;
+import br.com.macrosapi.dto.food.FoodDetailsDTO;
+import br.com.macrosapi.dto.food.FoodItemListDTO;
+import br.com.macrosapi.dto.meal.MealDetailsDTO;
 import br.com.macrosapi.model.food.Food;
 import br.com.macrosapi.model.meal.Meal;
 import br.com.macrosapi.model.mealfood.MealFood;

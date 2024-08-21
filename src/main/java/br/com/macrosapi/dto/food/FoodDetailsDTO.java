@@ -1,4 +1,4 @@
-package br.com.macrosapi.dto;
+package br.com.macrosapi.dto.food;
 
 import br.com.macrosapi.model.food.Food;
 

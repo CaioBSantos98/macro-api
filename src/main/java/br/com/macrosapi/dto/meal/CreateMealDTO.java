@@ -1,5 +1,6 @@
-package br.com.macrosapi.dto;
+package br.com.macrosapi.dto.meal;
 
+import br.com.macrosapi.dto.food.FoodItemListDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
