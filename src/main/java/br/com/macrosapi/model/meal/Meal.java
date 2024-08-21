@@ -31,4 +31,10 @@ public class Meal {
 
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
     private List<MealFood> mealFoods;
+
+    public Meal(String name, User user) {
+        this.name = name;
+        this.date = LocalDate.now();
+        this.user = user;
+    }
 }

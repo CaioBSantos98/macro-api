@@ -29,4 +29,10 @@ public class MealFood {
     @ManyToOne
     @JoinColumn(name = "food_id")
     private Food food;
+
+    public MealFood(Double quantity, Meal meal, Food food) {
+        this.foodQuantity = quantity;
+        this.meal = meal;
+        this.food = food;
+    }
 }
