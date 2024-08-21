@@ -83,4 +83,15 @@ public class MealService {
 
         return new MealSummaryDTO(meal.getName(), meal.getDate(), calories, carbohydrates, protein, fat);
     }
+
+    public void delete(UUID id, HttpServletRequest request) throws IllegalAccessException {
+        Meal meal = mealRepository.getReferenceById(id);
+        User user = userService.getUserByHttpRequest(request);
+
+        if (meal.getUser().getId() != user.getId()) {
+            throw new IllegalAccessException("You can only exclude your own meals");
+        }
+
+        mealRepository.deleteById(id);
+    }
 }

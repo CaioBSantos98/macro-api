@@ -45,10 +45,9 @@ public class FoodService {
 
     public void delete(UUID id, HttpServletRequest request) throws IllegalAccessException {
         Food food = foodRepository.getReferenceById(id);
-        String token = tokenService.recoverTokenFromCookies(request);
-        String email = tokenService.getSubject(token);
+        User user = userService.getUserByHttpRequest(request);
 
-        if (!email.equals(food.getUser().getEmail())) {
+        if (food.getUser().getId() != user.getId()) {
             throw new IllegalAccessException("You can only exclude your own foods");
         }
 
