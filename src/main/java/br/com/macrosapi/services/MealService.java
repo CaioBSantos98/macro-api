@@ -13,10 +13,12 @@ import br.com.macrosapi.model.user.User;
 import br.com.macrosapi.repositories.FoodRepository;
 import br.com.macrosapi.repositories.MealFoodRepository;
 import br.com.macrosapi.repositories.MealRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -68,6 +70,34 @@ public class MealService {
         return getMealSummary(meal);
     }
 
+    public void delete(UUID id, HttpServletRequest request) throws IllegalAccessException {
+        Meal meal = mealRepository.getReferenceById(id);
+        User user = userService.getUserByHttpRequest(request);
+
+        if (meal.getUser().getId() != user.getId()) {
+            throw new IllegalAccessException("You can only exclude your own meals");
+        }
+
+        mealRepository.deleteById(id);
+    }
+
+    public List<MealSummaryDTO> detailMealsByDate(LocalDate date, HttpServletRequest request) {
+        User user = userService.getUserByHttpRequest(request);
+        List<Meal> meals = mealRepository.findAllByUserAndDate(user, date);
+        List<MealSummaryDTO> mealSummaryDTOList = new ArrayList<>();
+
+        if (meals.isEmpty()) {
+            throw new EntityNotFoundException("No meals found on this date");
+        }
+
+        meals.forEach(m -> {
+            var mealSummaryDto = getMealSummary(m);
+            mealSummaryDTOList.add(mealSummaryDto);
+        });
+
+        return mealSummaryDTOList;
+    }
+
     private MealSummaryDTO getMealSummary(Meal meal) {
         Double calories = 0.0;
         Double carbohydrates = 0.0;
@@ -81,17 +111,6 @@ public class MealService {
             fat += mf.getFood().getFat() * mf.getFoodQuantity();
         }
 
-        return new MealSummaryDTO(meal.getName(), meal.getDate(), calories, carbohydrates, protein, fat);
-    }
-
-    public void delete(UUID id, HttpServletRequest request) throws IllegalAccessException {
-        Meal meal = mealRepository.getReferenceById(id);
-        User user = userService.getUserByHttpRequest(request);
-
-        if (meal.getUser().getId() != user.getId()) {
-            throw new IllegalAccessException("You can only exclude your own meals");
-        }
-
-        mealRepository.deleteById(id);
+        return new MealSummaryDTO(meal.getId(), meal.getName(), meal.getDate(), calories, carbohydrates, protein, fat);
     }
 }
