@@ -1,6 +1,7 @@
 package br.com.macrosapi.controller;
 
 import br.com.macrosapi.dto.user.LoginDTO;
+import br.com.macrosapi.dto.user.UserDetailsDTO;
 import br.com.macrosapi.model.user.User;
 import br.com.macrosapi.services.CookieService;
 import br.com.macrosapi.services.TokenService;
@@ -31,13 +32,15 @@ public class AuthenticationController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<String> login(@RequestBody @Valid LoginDTO dto, HttpServletResponse response) {
+    public ResponseEntity<UserDetailsDTO> login(@RequestBody @Valid LoginDTO dto, HttpServletResponse response) {
         var token = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
         var authentication = manager.authenticate(token);
         var tokenJWT = tokenService.create((User) authentication.getPrincipal());
         var cookie = cookieService.createJWTCookie(tokenJWT);
         response.addCookie(cookie);
 
-        return ResponseEntity.ok("Bem vindo " + ((User) authentication.getPrincipal()).getName());
+        var userDetails = new UserDetailsDTO((User) authentication.getPrincipal());
+
+        return ResponseEntity.ok(userDetails);
     }
 }
