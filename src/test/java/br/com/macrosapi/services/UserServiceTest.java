@@ -83,7 +83,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Should not throw exception when requesting details")
+    @DisplayName("Shouldn't throw exception when requesting details")
     void testCase04() {
         // ARRANGE
         BDDMockito.given(repository.getReferenceById(uuid)).willReturn(user);
@@ -94,7 +94,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Should delete user when requesting")
+    @DisplayName("Should delete user when the requester is the user")
     void testCase05() throws IllegalAccessException {
         // ARRANGE
         BDDMockito.given(repository.getReferenceById(uuid)).willReturn(user);
@@ -107,6 +107,19 @@ class UserServiceTest {
 
         // ASSERT
         BDDMockito.then(user).should().delete();
+    }
+
+    @Test
+    @DisplayName("Shouldn't delete the user when the requester isn't the user")
+    void testCase06() throws IllegalAccessException {
+        // ARRANGE
+        BDDMockito.given(repository.getReferenceById(uuid)).willReturn(user);
+        BDDMockito.given(tokenService.recoverTokenFromCookies(request)).willReturn("token");
+        BDDMockito.given(tokenService.getSubject("token")).willReturn("teste2@email.com");
+        BDDMockito.given(user.getEmail()).willReturn("teste@email.com");
+
+        // ASSERT + ACT
+        Assertions.assertThrows(IllegalAccessException.class, () -> service.delete(uuid, request));
     }
 
 }
