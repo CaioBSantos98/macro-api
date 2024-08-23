@@ -42,6 +42,16 @@ public class UserController {
         }
     }
 
+    @GetMapping()
+    public ResponseEntity<UserDetailsDTO> detailByHttpRequest(HttpServletRequest request) {
+        try {
+            User user = service.getUserByHttpRequest(request);
+            return ResponseEntity.ok(new UserDetailsDTO(user));
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @DeleteMapping("/delete/{id}")
     @Transactional
     public ResponseEntity<Void> delete(@PathVariable UUID id, HttpServletRequest request) {
