@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,15 +33,19 @@ public class AuthenticationController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<UserDetailsDTO> login(@RequestBody @Valid LoginDTO dto, HttpServletResponse response) {
+    public ResponseEntity<?> login(@RequestBody @Valid LoginDTO dto, HttpServletResponse response) {
         var token = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
-        var authentication = manager.authenticate(token);
-        var tokenJWT = tokenService.create((User) authentication.getPrincipal());
-        var cookie = cookieService.createJWTCookie(tokenJWT);
-        response.addCookie(cookie);
+        try {
+            var authentication = manager.authenticate(token);
+            var tokenJWT = tokenService.create((User) authentication.getPrincipal());
+            var cookie = cookieService.createJWTCookie(tokenJWT);
+            response.addCookie(cookie);
 
-        var userDetails = new UserDetailsDTO((User) authentication.getPrincipal());
+            var userDetails = new UserDetailsDTO((User) authentication.getPrincipal());
 
-        return ResponseEntity.ok(userDetails);
+            return ResponseEntity.ok(userDetails);
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
