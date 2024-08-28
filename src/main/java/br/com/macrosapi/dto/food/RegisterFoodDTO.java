@@ -14,15 +14,12 @@ public record RegisterFoodDTO(
         Double serving,
 
         @NotNull
-        @Positive
         Double carbohydrate,
 
         @NotNull
-        @Positive
         Double protein,
 
         @NotNull
-        @Positive
         Double fat
 ) {
         public Double calculateCalories() {
