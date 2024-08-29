@@ -118,8 +118,8 @@ public class MealService {
         // Para cada alimento que veio no DTO
         dto.foodList().forEach(foodItemDto -> {
             // Verifica se esse alimento já está cadastrado na refeição
-            Boolean foodOnMeal = existsThisFoodOnMeal(meal.getMealFoods(), foodItemDto.id());
-            if (foodOnMeal) {
+            Boolean existsFoodOnMeal = existsThisFoodOnMeal(meal.getMealFoods(), foodItemDto.id());
+            if (existsFoodOnMeal) {
                 // Caso alimento já esteja cadastrado, apenas adicionar a quantidade
                 MealFood mealFood = mealFoodRepository.findByMealIdAndFoodId(meal.getId(), foodItemDto.id());
                 mealFood.addQuantity(foodItemDto.quantity());
@@ -140,5 +140,20 @@ public class MealService {
             }
         }
         return false;
+    }
+
+    public MealDetailsDTO removeFood(UUID mealId, UUID foodId, HttpServletRequest request) {
+        User user = userService.getUserByHttpRequest(request);
+        Meal meal = mealRepository.findByUserAndId(user, mealId);
+
+        Boolean existsFoodOnMeal = existsThisFoodOnMeal(meal.getMealFoods(), foodId);
+        if (existsFoodOnMeal) {
+            MealFood mealFood = mealFoodRepository.findByMealIdAndFoodId(meal.getId(), foodId);
+            meal.getMealFoods().remove(mealFood);
+        } else {
+            throw new EntityNotFoundException("Food not found on this meal.");
+        }
+
+        return new MealDetailsDTO(meal);
     }
 }

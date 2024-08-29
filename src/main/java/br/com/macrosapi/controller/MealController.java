@@ -1,9 +1,6 @@
 package br.com.macrosapi.controller;
 
-import br.com.macrosapi.dto.meal.AddFoodDTO;
-import br.com.macrosapi.dto.meal.CreateMealDTO;
-import br.com.macrosapi.dto.meal.MealDetailsDTO;
-import br.com.macrosapi.dto.meal.MealSummaryDTO;
+import br.com.macrosapi.dto.meal.*;
 import br.com.macrosapi.services.MealService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -86,6 +83,18 @@ public class MealController {
     public ResponseEntity<MealDetailsDTO> addFood(@RequestBody @Valid AddFoodDTO dto, HttpServletRequest request) {
         try {
             MealDetailsDTO mealDetailsDTO = service.addFood(dto, request);
+            return ResponseEntity.ok(mealDetailsDTO);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/{mealId}/food/{foodId}")
+    @Transactional
+    public ResponseEntity<MealDetailsDTO> removeFood(@PathVariable UUID mealId, @PathVariable UUID foodId, HttpServletRequest request) {
+        try {
+            MealDetailsDTO mealDetailsDTO = service.removeFood(mealId, foodId, request);
             return ResponseEntity.ok(mealDetailsDTO);
         } catch (Exception e) {
             System.out.println(e.getMessage());
