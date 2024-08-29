@@ -35,4 +35,8 @@ public class MealFood {
         this.meal = meal;
         this.food = food;
     }
+
+    public void addQuantity(Double quantity) {
+        this.foodQuantity += quantity;
+    }
 }

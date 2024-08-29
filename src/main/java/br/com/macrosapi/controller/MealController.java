@@ -1,5 +1,6 @@
 package br.com.macrosapi.controller;
 
+import br.com.macrosapi.dto.meal.AddFoodDTO;
 import br.com.macrosapi.dto.meal.CreateMealDTO;
 import br.com.macrosapi.dto.meal.MealDetailsDTO;
 import br.com.macrosapi.dto.meal.MealSummaryDTO;
@@ -78,5 +79,17 @@ public class MealController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/foods")
+    @Transactional
+    public ResponseEntity<MealDetailsDTO> addFood(@RequestBody @Valid AddFoodDTO dto, HttpServletRequest request) {
+        try {
+            MealDetailsDTO mealDetailsDTO = service.addFood(dto, request);
+            return ResponseEntity.ok(mealDetailsDTO);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

@@ -1,11 +1,8 @@
 package br.com.macrosapi.services;
 
-import br.com.macrosapi.dto.meal.CreateMealDTO;
+import br.com.macrosapi.dto.meal.*;
 import br.com.macrosapi.dto.food.FoodDetailsDTO;
 import br.com.macrosapi.dto.food.FoodItemListDTO;
-import br.com.macrosapi.dto.meal.MealDetailsDTO;
-import br.com.macrosapi.dto.meal.MealFoodDTO;
-import br.com.macrosapi.dto.meal.MealSummaryDTO;
 import br.com.macrosapi.model.food.Food;
 import br.com.macrosapi.model.meal.Meal;
 import br.com.macrosapi.model.mealfood.MealFood;
@@ -112,5 +109,36 @@ public class MealService {
         }
 
         return new MealSummaryDTO(meal.getId(), meal.getName(), meal.getDate(), calories, carbohydrates, protein, fat);
+    }
+
+    public MealDetailsDTO addFood(AddFoodDTO dto, HttpServletRequest request) {
+        User user = userService.getUserByHttpRequest(request);
+        Meal meal = mealRepository.findByUserAndId(user, dto.mealId());
+
+        // Para cada alimento que veio no DTO
+        dto.foodList().forEach(foodItemDto -> {
+            // Verifica se esse alimento já está cadastrado na refeição
+            Boolean foodOnMeal = existsThisFoodOnMeal(meal.getMealFoods(), foodItemDto.id());
+            if (foodOnMeal) {
+                // Caso alimento já esteja cadastrado, apenas adicionar a quantidade
+                MealFood mealFood = mealFoodRepository.findByMealIdAndFoodId(meal.getId(), foodItemDto.id());
+                mealFood.addQuantity(foodItemDto.quantity());
+            } else {
+                // Caso alimento nao esteja cadastrado, adicionar o alimento na refeição
+                Food food = foodRepository.getReferenceById(foodItemDto.id());
+                meal.getMealFoods().add(new MealFood(foodItemDto.quantity(), meal, food));
+            }
+        });
+
+        return new MealDetailsDTO(meal);
+    }
+
+    private Boolean existsThisFoodOnMeal(List<MealFood> mealFoods, UUID id) {
+        for (MealFood mf : mealFoods) {
+            if (mf.getFood().getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -10,4 +10,6 @@ import java.util.UUID;
 
 public interface MealRepository extends JpaRepository<Meal, UUID> {
     List<Meal> findAllByUserAndDate(User user, LocalDate date);
+
+    Meal findByUserAndId(User user, UUID id);
 }
