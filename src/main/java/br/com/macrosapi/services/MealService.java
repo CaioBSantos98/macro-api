@@ -150,6 +150,7 @@ public class MealService {
         if (existsFoodOnMeal) {
             MealFood mealFood = mealFoodRepository.findByMealIdAndFoodId(meal.getId(), foodId);
             meal.getMealFoods().remove(mealFood);
+            mealFoodRepository.delete(mealFood);
         } else {
             throw new EntityNotFoundException("Food not found on this meal.");
         }
