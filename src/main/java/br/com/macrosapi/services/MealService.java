@@ -157,4 +157,16 @@ public class MealService {
 
         return new MealDetailsDTO(meal);
     }
+
+    public MealDetailsDTO removeAllFoods(UUID mealId, HttpServletRequest request) {
+        User user = userService.getUserByHttpRequest(request);
+        Meal meal = mealRepository.findByUserAndId(user, mealId);
+
+        meal.getMealFoods().forEach(mealFood -> {
+            mealFoodRepository.delete(mealFood);
+        });
+        meal.getMealFoods().clear();
+
+        return new MealDetailsDTO(meal);
+    }
 }

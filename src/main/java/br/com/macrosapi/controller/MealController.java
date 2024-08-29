@@ -101,4 +101,16 @@ public class MealController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @DeleteMapping("/{id}/foods")
+    @Transactional
+    public ResponseEntity<MealDetailsDTO> removeAllFoods(@PathVariable UUID id, HttpServletRequest request) {
+        try {
+            MealDetailsDTO mealDetailsDTO = service.removeAllFoods(id, request);
+            return ResponseEntity.ok(mealDetailsDTO);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
