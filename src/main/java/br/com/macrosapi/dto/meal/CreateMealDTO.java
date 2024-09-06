@@ -12,6 +12,9 @@ public record CreateMealDTO(
         @NotBlank
         String name,
 
+        @NotBlank
+        String date,
+
         @NotNull
         @NotEmpty
         @Valid

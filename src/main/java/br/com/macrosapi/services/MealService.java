@@ -10,6 +10,7 @@ import br.com.macrosapi.model.user.User;
 import br.com.macrosapi.repositories.FoodRepository;
 import br.com.macrosapi.repositories.MealFoodRepository;
 import br.com.macrosapi.repositories.MealRepository;
+import br.com.macrosapi.utils.DateConverter;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,7 +39,7 @@ public class MealService {
 
     public MealDetailsDTO create(CreateMealDTO dto, HttpServletRequest request) {
         User user = userService.getUserByHttpRequest(request);
-        Meal meal = new Meal(dto.name(), user);
+        Meal meal = new Meal(dto.name(), DateConverter.convertStringToLocalDate(dto.date()), user);
         mealRepository.save(meal);
 
         List<MealFoodDTO> foodDTOList = new ArrayList<>();
