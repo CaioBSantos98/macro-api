@@ -39,4 +39,8 @@ public class MealFood {
     public void addQuantity(Double quantity) {
         this.foodQuantity += quantity;
     }
+
+    public void updateQuantity(Double newQuantity) {
+        this.foodQuantity = newQuantity;
+    }
 }

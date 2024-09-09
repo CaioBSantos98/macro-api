@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -168,6 +167,16 @@ public class MealService {
             mealFoodRepository.delete(mealFood);
         });
         meal.getMealFoods().clear();
+
+        return new MealDetailsDTO(meal);
+    }
+
+    public MealDetailsDTO updateMeal(UpdateMealDTO dto, HttpServletRequest request) {
+        User user = userService.getUserByHttpRequest(request);
+        Meal meal = mealRepository.findByUserAndId(user, dto.mealId());
+        MealFood mealFood = mealFoodRepository.findByMealIdAndFoodId(meal.getId(), dto.foodId());
+
+        mealFood.updateQuantity(dto.newQuantity());
 
         return new MealDetailsDTO(meal);
     }

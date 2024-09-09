@@ -113,4 +113,16 @@ public class MealController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @PutMapping("/update")
+    @Transactional
+    public ResponseEntity<MealDetailsDTO> updateMeal(@RequestBody @Valid UpdateMealDTO dto, HttpServletRequest request) {
+        try {
+            MealDetailsDTO mealDetailsDTO = service.updateMeal(dto, request);
+            return ResponseEntity.ok(mealDetailsDTO);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
